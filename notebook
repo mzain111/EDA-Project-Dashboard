@@ -1,0 +1,250 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Ethereum EDA — Exploratory Data Analysis\n",
+    "**SAP ID:** 70177906  \n",
+    "**Dataset:** ethereum.csv (CoinGecko Ethereum History)  \n",
+    "**Course:** Exploratory Data Analysis  \n",
+    "**Instructor:** Ali Hassan Sherazi  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "import seaborn as sns\n",
+    "import warnings\n",
+    "warnings.filterwarnings('ignore')\n",
+    "\n",
+    "# Import custom modules\n",
+    "import sys\n",
+    "sys.path.append('..')\n",
+    "from filters import load_data, clean_data\n",
+    "from charts import *\n",
+    "\n",
+    "plt.style.use('dark_background')\n",
+    "print('Libraries loaded successfully!')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": ["## 1. Load & Preview Data"]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_raw = load_data('../data/ethereum.csv')\n",
+    "df = clean_data(df_raw)\n",
+    "print(f'Shape: {df.shape}')\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": ["## 2. Data Types & Info"]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": ["df.info()"]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": ["## 3. Descriptive Statistics"]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "num_cols = ['price','open','high','low','total_volume','market_cap','price_change_pct']\n",
+    "df[num_cols].describe().round(2)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": ["## 4. Missing Value Analysis"]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "missing = df.isnull().sum()\n",
+    "print('Missing values per column:')\n",
+    "print(missing[missing > 0] if missing.any() else 'No missing values found!')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": ["## 5. All 10 Required Charts"]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chart 1 — Pie\n",
+    "fig = chart_pie_direction(df)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chart 2 — Histogram\n",
+    "fig = chart_histogram_price(df)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chart 3 — Line\n",
+    "fig = chart_line_price_trend(df)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chart 4 — Bar\n",
+    "fig = chart_bar_monthly_avg(df)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chart 5 — Scatter\n",
+    "fig = chart_scatter_price_volume(df)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chart 6 — Box Plot\n",
+    "fig = chart_box_price_by_quarter(df)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chart 7 — Heatmap\n",
+    "fig = chart_heatmap_correlation(df)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chart 8 — Area Chart\n",
+    "fig = chart_area_market_cap(df)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chart 9 — Count Plot\n",
+    "fig = chart_count_day_of_week(df)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chart 10 — Violin Plot\n",
+    "fig = chart_violin_price_quarter(df)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": ["## 6. Key Insights"]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print('=== KEY INSIGHTS FROM ETH DATASET ===')\n",
+    "print(f\"Date Range: {df['date'].min().date()} to {df['date'].max().date()}\")\n",
+    "print(f\"Total Trading Days: {len(df)}\")\n",
+    "print(f\"Average Price: ${df['price'].mean():,.2f}\")\n",
+    "print(f\"Highest Price: ${df['price'].max():,.2f}\")\n",
+    "print(f\"Lowest Price:  ${df['price'].min():,.2f}\")\n",
+    "print(f\"Total Return:  {((df['price'].iloc[-1]-df['price'].iloc[0])/df['price'].iloc[0]*100):.2f}%\")\n",
+    "print(f\"Bullish Days:  {(df['price_direction']=='Bullish').sum()}\")\n",
+    "print(f\"Bearish Days:  {(df['price_direction']=='Bearish').sum()}\")\n",
+    "print(f\"Price-Volume Correlation: {df['price'].corr(df['total_volume']):.4f}\")\n",
+    "print(f\"Price-MarketCap Corr:    {df['price'].corr(df['market_cap']):.4f}\")"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "name": "python",
+   "version": "3.10.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
